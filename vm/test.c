@@ -24,13 +24,18 @@
 #include <string.h>
 #include <getopt.h>
 #include <errno.h>
+#ifdef __APPLE__
+#include "macosx_elf.h"
+#else
 #include <elf.h>
+#endif
 #include <math.h>
 #include "ubpf.h"
 
 void ubpf_set_register_offset(int x);
 static void *readfile(const char *path, size_t maxlen, size_t *len);
 static void register_functions(struct ubpf_vm *vm);
+void * memfrob (void *s, size_t n);
 
 static void usage(const char *name)
 {
@@ -233,4 +238,15 @@ register_functions(struct ubpf_vm *vm)
     ubpf_register(vm, 2, "trash_registers", trash_registers);
     ubpf_register(vm, 3, "sqrti", sqrti);
     ubpf_register(vm, 4, "strcmp_ext", strcmp);
+}
+
+void *
+memfrob (void *s, size_t n)
+{
+  char *p = (char *) s;
+
+  while (n-- > 0)
+    *p++ ^= 42;
+
+  return s;
 }

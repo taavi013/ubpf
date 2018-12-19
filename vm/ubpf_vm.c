@@ -23,6 +23,7 @@
 #include <inttypes.h>
 #include <sys/mman.h>
 #include "ubpf_int.h"
+#include "macosx_endian.h"
 
 #define MAX_EXT_FUNCS 64
 

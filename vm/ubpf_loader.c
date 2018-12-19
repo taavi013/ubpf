@@ -22,7 +22,11 @@
 #include <stdarg.h>
 #include <inttypes.h>
 #include "ubpf_int.h"
+#ifdef __APPLE__
+#include "macosx_elf.h"
+#else
 #include <elf.h>
+#endif
 
 #define MAX_SECTIONS 32
 
